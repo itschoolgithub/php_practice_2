@@ -1,3 +1,10 @@
+<?php
+    require_once "functions.php";
+    $connection = DBConnect();
+    $sql = "SELECT * FROM news";
+    $result = $connection->query($sql);
+    $articles = $result->fetchAll();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,20 +22,22 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <div class="card mb-2">
-                    <div class="card-body">
-                        <h5 class="card-title">Тайны древних цивилизаций: что мы знаем о Атлантиде?</h5>
-                        <p class="card-text">
-                            Атлантида — одна из самых загадочных утопий древности. Мы расскажем о легендах, теориях и открытиях, которые могут пролить свет на местоположение и судьбу этой мифической цивилизации.
-                        </p>
-                        <div class="text-secondary">01.12.2024</div>
+                <?php foreach ($articles as $article) : ?>
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $article['title'] ?></h5>
+                            <p class="card-text">
+                                <?php echo $article['short'] ?>
+                            </p>
+                            <div class="text-secondary"><?php echo $article['time'] ?></div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="article.php?id=<?php echo $article['id'] ?>" class="btn btn-primary">Подробнее</a>
+                            <a href="#" class="btn btn-warning">Изменить</a>
+                            <a href="#" class="btn btn-outline-danger">Удалить</a>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Подробнее</a>
-                        <a href="#" class="btn btn-warning">Изменить</a>
-                        <a href="#" class="btn btn-outline-danger">Удалить</a>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
         <div class="row mb-2">

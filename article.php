@@ -1,3 +1,11 @@
+<?php
+    require_once "functions.php";
+    $connection = DBConnect();
+    $sql = "SELECT * FROM news WHERE id = ?";
+    $result = $connection->prepare($sql);
+    $result->execute([$_GET['id']]);
+    $article = $result->fetch();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,16 +18,16 @@
     <div class="container py-2">
         <div class="row mb-2">
             <div class="col">
-                <h1>Тайны древних цивилизаций: что мы знаем о Атлантиде?</h1>
+                <h1><?php echo $article['title'] ?></h1>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col">
                 <div class="card mb-2">
                     <div class="card-body">
-                        <div class="text-secondary">01.12.2024</div>
+                        <div class="text-secondary"><?php echo $article['time'] ?></div>
                         <p class="card-text">
-                            Атлантида — это не только миф, но и одна из самых захватывающих тем для археологов, историков и любителей загадок. Согласно Платону, эта могущественная цивилизация процветала более 11 тысяч лет назад, но исчезла в результате катастрофического события. В этой статье мы рассмотрим основные теории о местоположении Атлантиды, включая варианты, что она могла располагаться в Атлантическом океане, на территории Антарктиды или даже в Средиземном море. Мы также обсудим исторические и археологические находки, которые могли бы подтвердить существование древней цивилизации, а также мифы, которые окружают этот объект, и как они сформировались с течением времени. Существуют ли доказательства существования Атлантиды, или это всего лишь вымысел, который пережил века?
+                            <?php echo $article['full'] ?>
                         </p>
                     </div>
                 </div>
@@ -27,7 +35,7 @@
         </div>
         <div class="row mb-2">
             <div class="col">
-                <a href="#" class="btn btn-outline-secondary">Назад</a>
+                <a href="index.php" class="btn btn-outline-secondary">Назад</a>
             </div>
         </div>
     </div>
